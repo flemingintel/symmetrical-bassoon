@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fleming</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg:        #080808;
+            --ink:       #f0ebe2;
+            --ink-mid:   rgba(240,235,226,0.70);
+            --ink-dim:   rgba(240,235,226,0.36);
+            --rule:      rgba(240,235,226,0.12);
+            --rule-hi:   rgba(240,235,226,0.50);
+            --serif:     'Cormorant Garamond', Georgia, serif;
+            --mono:      'Courier Prime', 'Courier New', monospace;
+        }
+
+        html { background: var(--bg); }
+
+        body {
+            background: var(--bg);
+            color: var(--ink);
+            font-family: var(--mono);
+            -webkit-font-smoothing: antialiased;
+            padding: 88px 24px 120px;
+            min-height: 100vh;
+        }
+
+        .page {
+            max-width: 660px;
+            margin: 0 auto;
+        }
+
+        /* Reveal animation */
+        .r {
+            opacity: 0;
+            transform: translateY(16px);
+            animation: rise 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .d1 { animation-delay: 0.06s; }
+        .d2 { animation-delay: 0.24s; }
+        .d3 { animation-delay: 0.42s; }
+        .d4 { animation-delay: 0.58s; }
+        .d5 { animation-delay: 0.74s; }
+        .d6 { animation-delay: 0.88s; }
+        .d7 { animation-delay: 1.01s; }
+        .d8 { animation-delay: 1.13s; }
+
+        @keyframes rise {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Wordmark */
+        .wordmark {
+            font-family: var(--serif);
+            font-size: clamp(54px, 13vw, 88px);
+            font-weight: 300;
+            letter-spacing: 0.32em;
+            line-height: 1;
+            padding-left: 0.32em;
+        }
+
+        /* Tagline */
+        .tagline {
+            font-family: var(--serif);
+            font-size: clamp(18px, 4vw, 27px);
+            font-weight: 300;
+            font-style: italic;
+            line-height: 1.35;
+            margin-top: 22px;
+        }
+
+        /* Dividers */
+        .rule {
+            border: none;
+            border-top: 1px solid var(--rule);
+            margin: 48px 0;
+        }
+        .rule-sm { margin: 22px 0; }
+
+        /* Section label */
+        .label {
+            font-size: 10px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--ink-dim);
+            margin-bottom: 20px;
+        }
+
+        /* Body text */
+        p {
+            font-size: 14.5px;
+            line-height: 1.92;
+            color: var(--ink);
+            margin-bottom: 14px;
+        }
+        p:last-child { margin-bottom: 0; }
+
+        /* Architecture callout */
+        .callout {
+            border-left: 1px solid var(--rule);
+            padding: 3px 0 3px 24px;
+            margin: 22px 0;
+        }
+        .callout p {
+            font-size: 14px;
+            color: var(--ink-mid);
+        }
+
+        /* List */
+        ul { list-style: none; padding: 0; margin-top: 4px; }
+        li {
+            font-size: 14px;
+            line-height: 1.78;
+            color: var(--ink-mid);
+            padding-left: 20px;
+            position: relative;
+            margin-bottom: 11px;
+        }
+        li::before {
+            content: '\2014';
+            position: absolute;
+            left: 0;
+            color: var(--ink-dim);
+        }
+
+        /* Form elements */
+        .form-group { margin-bottom: 24px; }
+
+        label {
+            display: block;
+            font-size: 10px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--ink-dim);
+            margin-bottom: 10px;
+        }
+
+        input, textarea {
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--rule);
+            color: var(--ink);
+            font-family: var(--mono);
+            font-size: 14px;
+            line-height: 1.6;
+            padding: 13px 16px;
+            outline: none;
+            border-radius: 0;
+            -webkit-appearance: none;
+            transition: border-color 0.18s;
+        }
+        input::placeholder, textarea::placeholder {
+            color: rgba(240,235,226,0.18);
+            font-style: italic;
+        }
+        input:focus, textarea:focus { border-color: var(--rule-hi); }
+        textarea { min-height: 108px; resize: none; }
+
+        .hint {
+            font-size: 11px;
+            color: var(--ink-dim);
+            margin-top: 7px;
+            font-style: italic;
+        }
+
+        /* Submit button */
+        .btn {
+            display: block;
+            width: 100%;
+            background: var(--ink);
+            color: var(--bg);
+            font-family: var(--mono);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.26em;
+            text-transform: uppercase;
+            border: none;
+            padding: 17px;
+            cursor: pointer;
+            border-radius: 0;
+            margin-top: 6px;
+            transition: opacity 0.18s;
+        }
+        .btn:hover:not(:disabled) { opacity: 0.84; }
+        .btn:disabled { opacity: 0.28; cursor: not-allowed; }
+
+        /* Error */
+        .err {
+            display: none;
+            font-size: 12px;
+            color: var(--ink-dim);
+            margin-top: 13px;
+            letter-spacing: 0.04em;
+        }
+
+        /* Success */
+        .success {
+            display: none;
+            padding: 52px 0;
+            text-align: center;
+        }
+        .success-mark {
+            font-family: var(--serif);
+            font-size: 52px;
+            font-weight: 300;
+            opacity: 0.42;
+            display: block;
+            margin-bottom: 22px;
+        }
+        .success p {
+            font-size: 14px;
+            color: var(--ink-mid);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 80px;
+            border-top: 1px solid var(--rule);
+            padding-top: 28px;
+            text-align: center;
+        }
+        .footer p {
+            font-size: 10px;
+            letter-spacing: 0.16em;
+            color: var(--ink-dim);
+        }
+
+        @media (max-width: 540px) {
+            body { padding: 56px 20px 80px; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <div class="r d1">
+        <div class="wordmark">FLEMING</div>
+        <hr class="rule rule-sm" style="margin-top:26px">
+        <p class="tagline">The record they didn't want you to read.</p>
+    </div>
+
+    <hr class="rule r d2">
+
+    <div class="r d3">
+        <div class="label">The Problem</div>
+        <p>You have sat across from sponsors who made commitments they never intended to keep. Equity that shifted after close. Partners who went silent when it mattered. Exit terms that looked nothing like the conversation at hire.</p>
+        <p>That intelligence exists. It travels through private networks, over dinner, between people who know the right people. It is inaccessible to most of the executives who need it most.</p>
+        <p>Fleming changes that.</p>
+    </div>
+
+    <hr class="rule r d4">
+
+    <div class="r d4">
+        <div class="label">What Fleming Is</div>
+        <p>Fleming is an invite-only intelligence platform. Verified, anonymous accounts of PE sponsor conduct from the executives and operators who were actually in the room.</p>
+        <p>First-hand. Structured. Protected.</p>
+        <p>Contributors are portco CEOs, CFOs, COOs, and equity-holding VPs who have lived the experience and are willing to put it on record. On their own terms.</p>
+    </div>
+
+    <hr class="rule r d5">
+
+    <div class="r d5">
+        <div class="label">Your Protection Is Architecture, Not Policy</div>
+        <div class="callout">
+            <p>Fleming cannot connect a review to a contributor identity. Not by policy. By design. Identity records and review content are stored in completely separate systems with no shared key. The platform cannot produce contributor identity under compulsion because it does not possess it.</p>
+        </div>
+        <ul>
+            <li>Anonymous alias assigned immediately after verification</li>
+            <li>Review held until a minimum of three verified accounts exist for the same sponsor. No solo exposure.</li>
+            <li>You review and approve your anonymized draft before publication</li>
+            <li>Removal standard is published. Reviews are not removed based on sponsor objection alone.</li>
+            <li>Legal challenges are tracked and published as platform data.</li>
+        </ul>
+    </div>
+
+    <hr class="rule r d6">
+
+    <div class="r d6">
+        <div class="label">The Founding Cohort</div>
+        <p>Fleming is in its founding stage. The initial contributor cohort is limited. Founding contributors establish the dataset and the standard.</p>
+        <p>This is not a general call for submissions. Access is by invitation and application only.</p>
+    </div>
+
+    <hr class="rule r d7">
+
+    <div class="r d7">
+        <div class="label">Apply</div>
+        <p style="margin-bottom:28px">If you hold or held equity at a PE-backed company and have direct experience with sponsor conduct, you are eligible to apply.</p>
+
+        <div id="form">
+            <div class="form-group">
+                <label for="li">LinkedIn URL</label>
+                <input type="url" id="li" placeholder="https://linkedin.com/in/yourprofile" spellcheck="false" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="em">Email Address</label>
+                <input type="email" id="em" placeholder="you@example.com" spellcheck="false" autocomplete="off">
+                <div class="hint">Personal email preferred.</div>
+            </div>
+            <div class="form-group">
+                <label for="exp">Your Experience</label>
+                <textarea id="exp" placeholder="Sponsor name(s), your role, deal type, approximate vintage..."></textarea>
+                <div class="hint">A few sentences is sufficient. Used for verification only.</div>
+            </div>
+            <button class="btn" id="btn" onclick="handleSubmit()">Submit Application</button>
+            <div class="err" id="err"></div>
+        </div>
+
+        <div class="success" id="ok">
+            <span class="success-mark">&#10022;</span>
+            <p>Application received. You will hear from The Fleming Team shortly.</p>
+        </div>
+    </div>
+
+    <div class="footer r d8">
+        <p>The Fleming Team &nbsp;&middot;&nbsp; Confidential</p>
+    </div>
+
+</div>
+<script>
+    // ── Supabase config ─────────────────────────────────────────────────────
+    // Replace both values before deploying to Vercel
+    const SUPABASE_URL = 'YOUR_SUPABASE_URL';       // e.g. https://abcxyz.supabase.co
+    const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';  // Settings > API > anon/public key
+
+    // ── Submission handler ───────────────────────────────────────────────────
+    async function handleSubmit() {
+        const li  = document.getElementById('li').value.trim();
+        const em  = document.getElementById('em').value.trim();
+        const exp = document.getElementById('exp').value.trim();
+        const btn = document.getElementById('btn');
+        const err = document.getElementById('err');
+
+        err.style.display = 'none';
+
+        if (!li || !em || !exp)            return showErr('All fields are required.');
+        if (!li.toLowerCase().includes('linkedin.com'))
+                                           return showErr('Please enter a valid LinkedIn URL.');
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em))
+                                           return showErr('Please enter a valid email address.');
+
+        btn.disabled    = true;
+        btn.textContent = 'Submitting...';
+
+        try {
+            const res = await fetch(`${SUPABASE_URL}/rest/v1/applications`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'apikey':        SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`,
+                    'Prefer':        'return=minimal'
+                },
+                body: JSON.stringify({
+                    linkedin_url: li,
+                    email:        em,
+                    experience:   exp,
+                    status:       'pending'
+                })
+            });
+
+            if (!res.ok) throw new Error();
+
+            document.getElementById('form').style.display = 'none';
+            document.getElementById('ok').style.display   = 'block';
+
+        } catch {
+            btn.disabled    = false;
+            btn.textContent = 'Submit Application';
+            showErr('Something went wrong. Please try again.');
+        }
+    }
+
+    function showErr(msg) {
+        const e       = document.getElementById('err');
+        e.textContent = msg;
+        e.style.display = 'block';
+    }
+
+    // Tab-friendly field progression
+    document.getElementById('li').addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); document.getElementById('em').focus(); }
+    });
+    document.getElementById('em').addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); document.getElementById('exp').focus(); }
+    });
+</script>
+</body>
+</html>
