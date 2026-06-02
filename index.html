@@ -368,15 +368,18 @@
                 })
             });
 
-            if (!res.ok) throw new Error();
+            if (!res.ok) {
+                const detail = await res.text();
+                throw new Error(`${res.status}: ${detail}`);
+            }
 
             document.getElementById('form').style.display = 'none';
             document.getElementById('ok').style.display   = 'block';
 
-        } catch {
+        } catch (err) {
             btn.disabled    = false;
             btn.textContent = 'Submit Application';
-            showErr('Something went wrong. Please try again.');
+            showErr(err.message || 'Something went wrong. Please try again.');
         }
     }
 
